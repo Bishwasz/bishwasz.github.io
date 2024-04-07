@@ -14,8 +14,8 @@
 .menu > * {
     color: #000;
     position: relative;
-    font-weight: 600;
-    font-family: "Encode Sans Condensed", sans-serif;    font-size: 1.5em;
+    font-family: "Encode Sans Condensed", sans-serif;
+    font-size: 1.5em;
     margin: 0 24px 15px 0;
     padding-left: 4px;
     height: calc(1.3em + 3px);
@@ -47,26 +47,4 @@
 }
 a {
     text-decoration: none;
-}
-@media screen and (max-width: 480px) {
-    .band {
-        padding: 0 max(8px, min(5vw, calc(100% - 400px)));
-        padding-top: 20px;
-        padding-bottom: 10px;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .band {
-        padding: 0 20px;
-    }
-    .menu > * {
-        font-size: 1.2em;
-        /* margin: 0 16px 10px 0; */
-        padding-right:0 ;
-        padding-left: 2px;
-        height: calc(1.1em + 3px);
-        padding-right: 24px;
-    }
-    
 }

@@ -54,4 +54,18 @@
 .FaLinkedin{
     color: #000;
 }
+@media screen and (max-width: 600px) {
+    .AboutMePage {
+        width: 100%; /* Set width to 100% for smaller screens */
+        padding: 20px; /* Add padding for better readability */
+    }
+    .DescriptionMe {
+        /* width: 100%; Set width to 100% for smaller screens */
+    }
+    .Links {
+        position: static; /* Set position to static for smaller screens */
+        margin-top: 20px; /* Add top margin for better spacing */
+    }
+    
+}
 

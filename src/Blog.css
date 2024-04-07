@@ -1,3 +1,4 @@
+/* Default styles for BlogPage */
 .BlogPage {
     width: 800px; /* Set the width */
     margin: 80px auto; /* Center the element horizontally with top margin of 80px */
@@ -18,19 +19,28 @@
     unicode-bidi: isolate;
 }
 
-
 .BlogPage a {
     text-decoration: none;
-    color:#205caa;;
+    color: #205caa;
     font-size: 40px;
 }
-.Date{
+
+.Date {
     display: block;
 }
+
 .Posts li {
     margin-bottom: 30px;
 }
+
 .BlogPage a:hover {
     text-decoration: underline; /* Underline the text on hover */
     cursor: pointer; /* Change cursor to pointer on hover */
+}
+@media screen and (max-width: 600px) {
+    .BlogPage {
+        width: 100%; /* Set width to 100% for smaller screens */
+        /* padding: 20px; Add padding for better readability */
+    }
+    
 }

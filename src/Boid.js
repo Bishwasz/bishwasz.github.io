@@ -14,7 +14,7 @@ function Boids() {
         canvas.height = window.innerHeight;
 
         const flock = [];
-        const numBoids = 100;
+        const numBoids = 200;
         for (let i = 0; i < numBoids; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
@@ -24,7 +24,7 @@ function Boids() {
         }
 
         const visual_range = 50;
-        const protected_range_squared = 40;
+        const protected_range_squared = 50;
         const visual_range_squared = visual_range ** 2;
         const centering_factor = 0.01;
         const matching_factor = 0.125;

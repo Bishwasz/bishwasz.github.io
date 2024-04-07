@@ -8,7 +8,15 @@
   background-color: #f0f0f0;
   
 }
-
+@media screen and (max-width: 600) {
+  .App {
+    height: auto;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+  }
+}
 
 
 
