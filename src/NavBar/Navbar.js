@@ -9,7 +9,7 @@ function Navbar() {
             </div> */}
             <div className="menu">
                 <Link to="/" id="menu-top">Landing</Link>
-                <Link to="/works" id="menu-works">Works</Link>
+                {/* <Link to="/works" id="menu-works">Works</Link> */}
                 <Link to="/about" id="menu-about">About</Link>
                 <Link to="/blog" id="menu-blog">Blog</Link>
                 <Link to="/demos" id="menu-demo">Demos</Link>

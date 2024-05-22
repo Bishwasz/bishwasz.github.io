@@ -1,0 +1,110 @@
+.band {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0 max(32px, calc(0.5 * max(0px, calc(100% - 800px))));
+    padding-top: 50px;
+    padding-bottom: 8px; /* Reduce bottom padding */
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    overflow: hidden;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent items from wrapping */
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    padding-left: 20px; /* Add space to the left */
+}
+
+.menu > * {
+    color: #000;
+    position: relative;
+    font-weight: 600;
+    font-family: "Encode Sans Condensed", sans-serif;
+    font-size: 1.5em;
+    margin: 0 24px 15px 0;
+    padding-left: 4px;
+    height: calc(1.3em + 3px);
+    padding-right: 32px;
+    cursor: pointer;
+    transition: color 0.2s ease-out;
+    z-index: 1;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.menu > a:hover {
+    background-color: #000;
+    color: white;
+}
+
+.menu > a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.3em;
+    width: 100%;
+    height: 4px;
+    background-color: #000;
+    transition: height 0.2s ease-out, top 0.2s ease-out;
+    z-index: -1;
+}
+
+.menu > a:hover::after {
+    height: 100%;
+    top: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Adjustments for screens 600px and below */
+@media screen and (max-width: 600px) {
+    .band {
+        padding: 0 20px;
+        padding-top: 30px;
+        padding-bottom: 8px; /* Further reduce bottom padding */
+    }
+    .menu {
+        padding-left: 10px; /* Adjust space to the left for smaller screens */
+    }
+    .menu > * {
+        font-size: 1.2em;
+        margin: 0 16px 10px 0;
+        padding-left: 2px;
+        padding-right: 24px;
+        height: calc(1.2em + 3px);
+    }
+}
+
+/* Further adjustments for screens 480px and below */
+@media screen and (max-width: 480px) {
+    .band {
+        padding: 0 10px;
+        padding-top: 20px;
+        padding-bottom: 5px; /* Further reduce bottom padding */
+    }
+    .menu {
+        padding-left: 5px; /* Adjust space to the left for very small screens */
+    }
+    .menu > * {
+        font-size: 1em;
+        margin: 0 8px 5px 0;
+        padding-left: 1px;
+        padding-right: 16px;
+        height: calc(1em + 3px);
+    }
+}
+
+
+
+
+

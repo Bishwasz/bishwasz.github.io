@@ -6,14 +6,26 @@
     z-index: 999;
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.75);
-    padding: 0 max(32px, calc(0.5* max(0px, calc(100% - 800px))));
+    padding: 0 max(32px, calc(0.5 * max(0px, calc(100% - 800px))));
     padding-top: 50px;
     padding-bottom: 20px;
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+    overflow: hidden;
 }
 
 .menu > * {
     color: #000;
     position: relative;
+    font-weight: 600;
     font-family: "Encode Sans Condensed", sans-serif;
     font-size: 1.5em;
     margin: 0 24px 15px 0;
@@ -41,33 +53,51 @@
     transition: height 0.2s ease-out, top 0.2s ease-out;
     z-index: -1;
 }
+
 .menu > a:hover::after {
     height: 100%;
     top: 0;
 }
+
 a {
     text-decoration: none;
 }
 
-@media screen and (max-width: 480px) {
-    .band {
-        padding: 0 max(8px, min(5vw, calc(100% - 400px)));
-        padding-top: 20px;
-        padding-bottom: 10px;
-    }
-}
-
+/* Adjustments for screens 600px and below */
 @media screen and (max-width: 600px) {
     .band {
         padding: 0 20px;
+        padding-top: 30px;
+        padding-bottom: 15px;
+    }
+    .menu {
+        justify-content: center; /* Center align for smaller screens */
     }
     .menu > * {
         font-size: 1.2em;
-        /* margin: 0 16px 10px 0; */
-        padding-right:0 ;
+        margin: 0 16px 10px 0;
         padding-left: 2px;
-        height: calc(1.1em + 3px);
         padding-right: 24px;
+        height: calc(1.2em + 3px);
     }
-    
+}
+
+/* Further adjustments for screens 480px and below */
+@media screen and (max-width: 480px) {
+    .band {
+        padding: 0 10px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+    }
+    .menu {
+        flex-direction: column;
+        align-items: center;
+    }
+    .menu > * {
+        font-size: 1em;
+        margin: 5px 0;
+        padding-left: 1px;
+        padding-right: 16px;
+        height: calc(1em + 3px);
+    }
 }

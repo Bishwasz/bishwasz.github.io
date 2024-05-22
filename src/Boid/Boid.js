@@ -1,6 +1,3 @@
-
-
-
 import React, { useRef, useEffect } from 'react';
 
 function Boids() {
@@ -33,25 +30,13 @@ function Boids() {
         const minspeed = 1;
         const maxspeed = 4;
 
-        function drawArrow(ctx, x, y, angle) {
+        function drawNode(ctx, x, y, angle) {
           ctx.beginPath();
           ctx.arc(x, y,5, 0, 2 * Math.PI);
           ctx.fillStyle = 'black';
           ctx.fill();
 
-          // const arrowLength = 15;
-          // const arrowWidth = 10;
-          // ctx.save();
-          // ctx.translate(x, y);
-          // ctx.rotate((angle+4.7)); // Rotating by Math.PI / 2 makes the arrow point in the correct direction
-          // ctx.beginPath();
-          // ctx.moveTo(-arrowWidth / 2, 0);
-          // ctx.lineTo(arrowWidth / 2, 0);
-          // ctx.lineTo(0, arrowLength);
-          // ctx.closePath();
-          // ctx.fillStyle = 'black';
-          // ctx.fill();
-          // ctx.restore();
+      
         }
 
         function updateAndRenderBoids() {
@@ -117,7 +102,7 @@ function Boids() {
                 boid.x += boid.vx;
                 boid.y += boid.vy;
 
-                drawArrow(ctx, boid.x, boid.y, Math.atan2(boid.vy, boid.vx));
+                drawNode(ctx, boid.x, boid.y, Math.atan2(boid.vy, boid.vx));
             }
 
             requestAnimationFrame(updateAndRenderBoids);
