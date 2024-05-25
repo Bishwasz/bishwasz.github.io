@@ -22,10 +22,6 @@
 }
 
 /* Media query for smaller screens */
-@media (max-width: 600px) {
-    .DemosPage {
-        margin: 40px auto; /* Reduce the margin for smaller screens */
-    }
-}
+
 
 
