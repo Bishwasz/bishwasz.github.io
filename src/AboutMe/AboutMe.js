@@ -11,6 +11,7 @@ function AboutMe() {
             <div className="DescriptionMe">
                 <p>
                 Hey! I'm Bishwas Bhattarai, a third-year student pursuing a double major in Computer Science and Statistics at the University of Alberta. I have a deep-seated fascination for various domains, including Deep Learning, Reinforcement Learning, Generative Models, Computer Graphics,  Software Development and much more. Exploring the intersections of these fields fuels my curiosity and drives me to delve deeper into understanding their applications and implications.
+                <br/> Here is my <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer">CV</a>.
                 </p>
             </div>
             <div className="Links">

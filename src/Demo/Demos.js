@@ -9,10 +9,10 @@ function Demos() {
                 <Link to="/demos/pathFinding" className="demo-link">Path Finding Demo</Link>
             </div>
             <div className="demo-item">
-                <Link to="/demos/gameOfLife" className="demo-link">John Conway's Cellural automata</Link>
+                <Link to="/demos/gameOfLife" className="demo-link">John Conway's Cellular Automaton</Link>
             </div>
             <div className="demo-item">
-                <span className="demo-link">Gravity Simulator (Coming Soon)</span>
+                <span className="demo-link">Gravity Simulator Sand-Box(Coming Soon)</span>
             </div>
         </div>
     );
