@@ -3,26 +3,21 @@ class PriorityQueue {
         this.values = [];
     }
 
-    enqueue(node) {
-        let flag = false;
-        for (let i = 0; i < this.values.length; i++) {
-            if (this.values[i].distance > node.distance) {
-                this.values.splice(i, 0, node);
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            this.values.push(node);
-        }
+    enqueue(element, priority) {
+        this.values.push({ element, priority });
+        this.sort();
     }
 
     dequeue() {
-        return this.values.shift();
+        return this.values.shift().element;
     }
 
     size() {
         return this.values.length;
+    }
+
+    sort() {
+        this.values.sort((a, b) => a.priority - b.priority);
     }
 }
 

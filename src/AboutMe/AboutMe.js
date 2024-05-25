@@ -20,9 +20,9 @@ function AboutMe() {
                 <a href="https://www.linkedin.com/in/bishwas-bhattarai-269938219/" target="_blank" rel="noopener noreferrer">
                     <FaLinkedin />
                 </a>
-                <a href="https://leetcode.com/bishwas2026/" target="_blank" rel="noopener noreferrer">
+                {/* <a href="https://leetcode.com/bishwas2026/" target="_blank" rel="noopener noreferrer">
                     <SiLeetcode />
-                </a>
+                </a> */}
             </div>
         </div>
     );

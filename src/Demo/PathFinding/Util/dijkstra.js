@@ -1,11 +1,9 @@
 import PriorityQueue from './PriorityQueue';
-// src/utils/dijkstra.js
-// import PriorityQueue from './PriorityQueue';
 
 export function dijkstra(nodes, startNode, endNode, visitCallback) {
     const pq = new PriorityQueue();
     startNode.distance = 0;
-    pq.enqueue(startNode);
+    pq.enqueue(startNode, startNode.distance);
 
     while (pq.size() > 0) {
         const node = pq.dequeue();
@@ -22,7 +20,7 @@ export function dijkstra(nodes, startNode, endNode, visitCallback) {
                 if (newDistance < neighbor.distance) {
                     neighbor.distance = newDistance;
                     neighbor.previousNode = node;
-                    pq.enqueue(neighbor);
+                    pq.enqueue(neighbor, neighbor.distance);
                 }
             }
         }

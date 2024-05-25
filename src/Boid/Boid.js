@@ -11,7 +11,7 @@ function Boids() {
         canvas.height = window.innerHeight;
 
         const flock = [];
-        const numBoids = 200;
+        const numBoids = 350;
         for (let i = 0; i < numBoids; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;

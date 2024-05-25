@@ -20,32 +20,33 @@ function PathFindingDemo() {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const initializeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-        const rows = 25;
-        const cols = 40;
-        const nodeWidth = canvas.width / cols;
-        const nodeHeight = canvas.height / rows;
+            const rows = 25;
+            const cols = 40;
+            const nodeWidth = canvas.width / cols;
+            const nodeHeight = canvas.height / rows;
 
-        const nodes = initializeNodes(rows, cols);
-        const startAndEnd = assignStartAndEndNodes(nodes);
+            const nodes = initializeNodes(rows, cols);
+            const startAndEnd = assignStartAndEndNodes(nodes);
 
-        nodesRef.current = nodes;
-        setStartEndNodes(startAndEnd);
+            nodesRef.current = nodes;
+            setStartEndNodes(startAndEnd);
 
-        function updateAndRenderNodes() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            renderNodes(ctx, nodes, nodeWidth, nodeHeight);
-        }
+            updateAndRenderNodes(ctx, nodes, nodeWidth, nodeHeight);
+        };
 
-        updateAndRenderNodes();
+        initializeCanvas();
 
+        window.addEventListener('resize', initializeCanvas);
         canvas.addEventListener('mousedown', handleMouseDown);
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('mouseup', handleMouseUp);
 
         return () => {
+            window.removeEventListener('resize', initializeCanvas);
             canvas.removeEventListener('mousedown', handleMouseDown);
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseup', handleMouseUp);
@@ -73,10 +74,12 @@ function PathFindingDemo() {
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
 
+            const nodeWidth = canvas.width / 40; // Assuming cols = 40
+            const nodeHeight = canvas.height / 25; // Assuming rows = 25
             const clickedRow = Math.floor(y / nodeHeight);
             const clickedCol = Math.floor(x / nodeWidth);
 
-            if (clickedRow >= rows || clickedCol >= cols || clickedRow < 0 || clickedCol < 0) return;
+            if (clickedRow >= 25 || clickedCol >= 40 || clickedRow < 0 || clickedCol < 0) return;
 
             const node = nodesRef.current[clickedRow][clickedCol];
             if (node.color === '#375E97' || node.color === '#FB6542') return;
@@ -86,6 +89,11 @@ function PathFindingDemo() {
             drawNode(ctx, clickedCol * nodeWidth, clickedRow * nodeHeight, nodeWidth - 1, nodeHeight - 1, node.color);
         }
     }, []);
+
+    const updateAndRenderNodes = (ctx, nodes, nodeWidth, nodeHeight) => {
+        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        renderNodes(ctx, nodes, nodeWidth, nodeHeight);
+    };
 
     const runDijkstra = () => {
         const { startNode, endNode } = startEndNodes;
@@ -147,6 +155,31 @@ function PathFindingDemo() {
         }
     };
 
+    const clearGrid = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        initializeCanvas(ctx);
+    };
+
+    const initializeCanvas = (ctx) => {
+        const canvas = canvasRef.current;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const rows = 25;
+        const cols = 40;
+        const nodeWidth = canvas.width / cols;
+        const nodeHeight = canvas.height / rows;
+
+        const nodes = initializeNodes(rows, cols);
+        const startAndEnd = assignStartAndEndNodes(nodes);
+
+        nodesRef.current = nodes;
+        setStartEndNodes(startAndEnd);
+
+        updateAndRenderNodes(ctx, nodes, nodeWidth, nodeHeight);
+    };
+
     return (
         <div style={{ position: "relative", width: '100%', height: '100%' }}>
             <canvas ref={canvasRef} />
@@ -156,9 +189,12 @@ function PathFindingDemo() {
             <button onClick={runDijkstra} style={{ position: 'absolute', top: 50, left: 10 }}>
                 Run Dijkstra
             </button>
-            {/* <button onClick={runAStar} style={{ position: 'absolute', top: 90, left: 10 }}>
+            <button onClick={runAStar} style={{ position: 'absolute', top: 90, left: 10 }}>
                 Run A*
-            </button> */}
+            </button>
+            <button onClick={clearGrid} style={{ position: 'absolute', top: 130, left: 10 }}>
+                Clear Grid
+            </button>
         </div>
     );
 }

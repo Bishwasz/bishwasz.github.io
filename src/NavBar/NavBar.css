@@ -4,24 +4,37 @@
     left: 0;
     width: 100%;
     z-index: 999;
-    margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.75);
     padding: 0 max(32px, calc(0.5 * max(0px, calc(100% - 800px))));
-    padding-top: 50px;
-    padding-bottom: 8px; /* Reduce bottom padding */
+    padding-top: 10px; /* Adjusted padding */
     display: flex;
-    justify-content: flex-start; /* Align items to the left */
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
     overflow: hidden;
 }
 
-.menu {
+.logo-container {
+    width: 55%;
     display: flex;
-    flex-wrap: nowrap; /* Prevent items from wrapping */
-    justify-content: flex-start; /* Align items to the left */
-    width: 100%;
-    overflow-x: auto; /* Allow horizontal scrolling */
-    padding-left: 20px; /* Add space to the left */
+    justify-content: flex-start; /* Align the logo to the left initially */
+    /* padding-top: 10px; */
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.logo-container img {
+    position: relative;
+    left: 50%; /* Adjust this value to move the logo horizontally */
+    transform: translateX(-50%); /* Center the logo */
+}
+
+.menu {
+    width: 100%; /* Ensure the menu takes the full width */
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-left: 20px;
 }
 
 .menu > * {
@@ -37,7 +50,7 @@
     cursor: pointer;
     transition: color 0.2s ease-out;
     z-index: 1;
-    white-space: nowrap; /* Prevent text from wrapping */
+    white-space: nowrap;
 }
 
 .menu > a:hover {
@@ -71,10 +84,9 @@ a {
     .band {
         padding: 0 20px;
         padding-top: 30px;
-        padding-bottom: 8px; /* Further reduce bottom padding */
     }
     .menu {
-        padding-left: 10px; /* Adjust space to the left for smaller screens */
+        padding-left: 10px;
     }
     .menu > * {
         font-size: 1.2em;
@@ -83,6 +95,13 @@ a {
         padding-right: 24px;
         height: calc(1.2em + 3px);
     }
+    .logo-container {
+        margin-bottom: 5px;
+    }
+    .logo-container img {
+        height: 30px;
+        max-width: 80px;
+    }
 }
 
 /* Further adjustments for screens 480px and below */
@@ -90,10 +109,9 @@ a {
     .band {
         padding: 0 10px;
         padding-top: 20px;
-        padding-bottom: 5px; /* Further reduce bottom padding */
     }
     .menu {
-        padding-left: 5px; /* Adjust space to the left for very small screens */
+        padding-left: 5px;
     }
     .menu > * {
         font-size: 1em;
@@ -102,9 +120,11 @@ a {
         padding-right: 16px;
         height: calc(1em + 3px);
     }
+    .logo-container {
+        margin-bottom: 3px;
+    }
+    .logo-container img {
+        height: 25px;
+        max-width: 60px;
+    }
 }
-
-
-
-
-

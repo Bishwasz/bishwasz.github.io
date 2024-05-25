@@ -1,23 +1,19 @@
 import React from 'react';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
+import logo from './logo.png'; // Adjust the path as needed
+
 function Navbar() {
     return (
-        <header className="band" >
-            {/* <div className="logo">
-                <span className="title">bishwas.io</span>
-            </div> */}
+        <header className="band">
+            <div className="logo-container">
+                <img src={logo} alt="Logo" style={{width:"90px",height:"40px"}} />
+            </div>
             <div className="menu">
                 <Link to="/" id="menu-top">Landing</Link>
-                {/* <Link to="/works" id="menu-works">Works</Link> */}
                 <Link to="/about" id="menu-about">About</Link>
                 <Link to="/blog" id="menu-blog">Blog</Link>
                 <Link to="/demos" id="menu-demo">Demos</Link>
-                {/* <a href="./" id="menu-top">Landing</a>
-                <a href="./works" id="menu-works">Works</a>
-                <a href="./about" id="menu-about">About</a>
-                <a href="./blog" id="menu-blog">Blog</a>
-                <a href="./demos" id="menu-demo">Demos</a> */}
             </div>
         </header>
     );

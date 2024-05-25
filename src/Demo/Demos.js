@@ -1,17 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import './demo.css';
+
 function Demos() {
     return (
-        <div className="DemosPage" style={{ textAlign: 'center', padding: '20px' }}>
-            <div style={{ marginBottom: '20px' }}>
-                <Link to="/demos/pathFinding" style={{ margin: '0 10px' }}>Path Finding Demo</Link>
-                <Link to="/demos/gameOfLife" style={{ margin: '0 10px' }}>Game of Life Demo</Link>
-                <a>Gravity Simulator (Coming Soon)</a>
+        <div className="DemosPage">
+            <div className="demo-item">
+                <Link to="/demos/pathFinding" className="demo-link">Path Finding Demo</Link>
+            </div>
+            <div className="demo-item">
+                <Link to="/demos/gameOfLife" className="demo-link">John Conway's Cellural automata</Link>
+            </div>
+            <div className="demo-item">
+                <span className="demo-link">Gravity Simulator (Coming Soon)</span>
             </div>
         </div>
     );
 }
 
 export default Demos;
-;
+
+
+

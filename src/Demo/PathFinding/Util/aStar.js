@@ -1,7 +1,5 @@
-// src/Util/aStar.js
 import PriorityQueue from './PriorityQueue';
-
-// Manhattan distance heuristic function
+// import Node from './Node';
 function heuristic(node, endNode) {
     return Math.abs(node.x - endNode.x) + Math.abs(node.y - endNode.y);
 }
@@ -13,7 +11,7 @@ export function aStar(nodes, startNode, endNode, visitCallback) {
     pq.enqueue(startNode, startNode.fScore);
 
     while (pq.size() > 0) {
-        const node = pq.dequeue().element;
+        const node = pq.dequeue();
         if (node.visited) continue;
         if (node === endNode) return node;
 
@@ -25,7 +23,7 @@ export function aStar(nodes, startNode, endNode, visitCallback) {
             if (!neighbor.visited && !neighbor.isWall) {
                 const tentativeGScore = node.gScore + 1;
 
-                if (tentativeGScore < neighbor.gScore || neighbor.gScore === undefined) {
+                if (tentativeGScore < neighbor.gScore) {
                     neighbor.previousNode = node;
                     neighbor.gScore = tentativeGScore;
                     neighbor.fScore = tentativeGScore + heuristic(neighbor, endNode);

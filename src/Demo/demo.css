@@ -1,12 +1,17 @@
 .DemosPage {
     width: 100%; /* Default to full width */
     max-width: 800px; /* Max width of 800px */
-    margin: 100px auto; /* Center the element horizontally with a top margin of 80px */
+    margin: 100px auto; /* Center the element horizontally with a top margin of 100px */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px; /* Add padding for small screens */
+    flex-direction: column; /* Arrange children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    padding: 20px; /* Add padding */
+    text-align: center; /* Center align text */
+}
+
+.demo-item {
+    margin-bottom: 20px; /* Add margin between items */
 }
 
 /* Media query for screens larger than 800px */
@@ -22,3 +27,5 @@
         margin: 40px auto; /* Reduce the margin for smaller screens */
     }
 }
+
+

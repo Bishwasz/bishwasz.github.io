@@ -15,6 +15,7 @@ function GameOfLife() {
     const canvasRef = useRef(null);
     const [grid, setGrid] = useState([]);
     const [isRunning, setIsRunning] = useState(false);
+    const [isMouseDown, setIsMouseDown] = useState(false);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -72,16 +73,33 @@ function GameOfLife() {
         });
     };
 
-    const handleCanvasClick = event => {
+    const handleMouseDown = event => {
+        setIsMouseDown(true);
+        toggleCellState(event);
+    };
+
+    const handleMouseUp = () => {
+        setIsMouseDown(false);
+    };
+
+    const handleMouseMove = event => {
+        if (isMouseDown) {
+            toggleCellState(event);
+        }
+    };
+
+    const toggleCellState = event => {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((event.clientX - rect.left) / CELL_SIZE);
         const y = Math.floor((event.clientY - rect.top) / CELL_SIZE);
 
         const updatedGrid = [...grid];
-        updatedGrid[y][x].isAlive = !updatedGrid[y][x].isAlive;
-        setGrid(updatedGrid);
-        drawGrid(canvas.getContext('2d'), updatedGrid);
+        if (updatedGrid[y] && updatedGrid[y][x]) {
+            updatedGrid[y][x].isAlive = !updatedGrid[y][x].isAlive;
+            setGrid(updatedGrid);
+            drawGrid(canvas.getContext('2d'), updatedGrid);
+        }
     };
 
     const getNextGeneration = grid => {
@@ -149,7 +167,12 @@ function GameOfLife() {
 
     return (
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <canvas ref={canvasRef} onClick={handleCanvasClick} />
+            <canvas
+                ref={canvasRef}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseMove={handleMouseMove}
+            />
             <button
                 style={{ position: 'absolute', top: 10, right: 10 }}
                 onClick={handleStartStop}
