@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 
 function Boids() {
     const canvasRef = useRef(null);
+    const mousePosition = useRef({ x: null, y: null });
+    const isMouseClicked = useRef(false);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -11,7 +13,7 @@ function Boids() {
         canvas.height = window.innerHeight;
 
         const flock = [];
-        const numBoids = 350;
+        const numBoids = 1000;
         for (let i = 0; i < numBoids; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
@@ -20,96 +22,120 @@ function Boids() {
             flock.push({ x, y, vx, vy });
         }
 
-        const visual_range = 50;
-        const protected_range_squared = 50;
-        const visual_range_squared = visual_range ** 2;
-        const centering_factor = 0.01;
-        const matching_factor = 0.125;
-        const avoidfactor = 5;
-        const turnfactor = 0.05;
-        const minspeed = 1;
-        const maxspeed = 4;
+        const visualRange = 50;
+        const protectedRangeSquared = 50;
+        const visualRangeSquared = visualRange ** 2;
+        const centeringFactor = 0.01;
+        const matchingFactor = 0.125;
+        const avoidFactor = 10;
+        const turnFactor = 0.05;
+        const minSpeed = 1;
+        const maxSpeed = 4;
+        const attractionFactor = 0.05;
 
-        function drawNode(ctx, x, y, angle) {
-          ctx.beginPath();
-          ctx.arc(x, y,5, 0, 2 * Math.PI);
-          ctx.fillStyle = 'black';
-          ctx.fill();
+        canvas.addEventListener('mousedown', (event) => {
+            mousePosition.current.x = event.clientX;
+            mousePosition.current.y = event.clientY;
+            isMouseClicked.current = true;
+        });
 
-      
+        canvas.addEventListener('mouseup', () => {
+            isMouseClicked.current = false;
+            mousePosition.current.x = null;
+            mousePosition.current.y = null;
+        });
+
+        canvas.addEventListener('mousemove', (event) => {
+            if (isMouseClicked.current) {
+                mousePosition.current.x = event.clientX;
+                mousePosition.current.y = event.clientY;
+            }
+        });
+
+        function drawBoid(ctx, x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'black';
+            ctx.fill();
         }
 
         function updateAndRenderBoids() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (const boid of flock) {
-                let xpos_avg = 0,
-                    ypos_avg = 0,
-                    xvel_avg = 0,
-                    yvel_avg = 0,
-                    neighboring_boids = 0,
-                    close_dx = 0,
-                    close_dy = 0;
+                let xPosAvg = 0,
+                    yPosAvg = 0,
+                    xVelAvg = 0,
+                    yVelAvg = 0,
+                    neighboringBoids = 0,
+                    closeDx = 0,
+                    closeDy = 0;
 
-                for (const otherboid of flock) {
-                    const dx = boid.x - otherboid.x;
-                    const dy = boid.y - otherboid.y;
-                    const squared_distance = dx * dx + dy * dy;
+                for (const otherBoid of flock) {
+                    const dx = boid.x - otherBoid.x;
+                    const dy = boid.y - otherBoid.y;
+                    const squaredDistance = dx * dx + dy * dy;
 
-                    if (Math.abs(dx) < visual_range && Math.abs(dy) < visual_range) {
-                        if (squared_distance < protected_range_squared) {
-                            close_dx += boid.x - otherboid.x;
-                            close_dy += boid.y - otherboid.y;
-                        } else if (squared_distance < visual_range_squared) {
-                            xpos_avg += otherboid.x;
-                            ypos_avg += otherboid.y;
-                            xvel_avg += otherboid.vx;
-                            yvel_avg += otherboid.vy;
-                            neighboring_boids++;
+                    if (Math.abs(dx) < visualRange && Math.abs(dy) < visualRange) {
+                        if (squaredDistance < protectedRangeSquared) {
+                            closeDx += boid.x - otherBoid.x;
+                            closeDy += boid.y - otherBoid.y;
+                        } else if (squaredDistance < visualRangeSquared) {
+                            xPosAvg += otherBoid.x;
+                            yPosAvg += otherBoid.y;
+                            xVelAvg += otherBoid.vx;
+                            yVelAvg += otherBoid.vy;
+                            neighboringBoids++;
                         }
                     }
                 }
 
-                if (neighboring_boids > 0) {
-                    xpos_avg /= neighboring_boids;
-                    ypos_avg /= neighboring_boids;
-                    xvel_avg /= neighboring_boids;
-                    yvel_avg /= neighboring_boids;
+                if (neighboringBoids > 0) {
+                    xPosAvg /= neighboringBoids;
+                    yPosAvg /= neighboringBoids;
+                    xVelAvg /= neighboringBoids;
+                    yVelAvg /= neighboringBoids;
 
-                    boid.vx += (xpos_avg - boid.x) * centering_factor + (xvel_avg - boid.vx) * matching_factor;
-                    boid.vy += (ypos_avg - boid.y) * centering_factor + (yvel_avg - boid.vy) * matching_factor;
+                    boid.vx += (xPosAvg - boid.x) * centeringFactor + (xVelAvg - boid.vx) * matchingFactor;
+                    boid.vy += (yPosAvg - boid.y) * centeringFactor + (yVelAvg - boid.vy) * matchingFactor;
                 }
 
-                boid.vx += close_dx * avoidfactor;
-                boid.vy += close_dy * avoidfactor;
+                boid.vx += closeDx * avoidFactor;
+                boid.vy += closeDy * avoidFactor;
 
-                if (boid.x < 0) boid.vx += turnfactor;
-                if (boid.x > canvas.width) boid.vx -= turnfactor;
-                if (boid.y < 0) boid.vy += turnfactor;
-                if (boid.y > canvas.height) boid.vy -= turnfactor;
+                if (isMouseClicked.current && mousePosition.current.x !== null && mousePosition.current.y !== null) {
+                    const dx = mousePosition.current.x - boid.x;
+                    const dy = mousePosition.current.y - boid.y;
+                    boid.vx += dx * attractionFactor;
+                    boid.vy += dy * attractionFactor;
+                }
+
+                if (boid.x < 0) boid.vx += turnFactor;
+                if (boid.x > canvas.width) boid.vx -= turnFactor;
+                if (boid.y < 0) boid.vy += turnFactor;
+                if (boid.y > canvas.height) boid.vy -= turnFactor;
 
                 const speed = Math.sqrt(boid.vx * boid.vx + boid.vy * boid.vy);
 
-                if (speed < minspeed) {
-                    boid.vx = (boid.vx / speed) * minspeed;
-                    boid.vy = (boid.vy / speed) * minspeed;
+                if (speed < minSpeed) {
+                    boid.vx = (boid.vx / speed) * minSpeed;
+                    boid.vy = (boid.vy / speed) * minSpeed;
                 }
-                if (speed > maxspeed) {
-                    boid.vx = (boid.vx / speed) * maxspeed;
-                    boid.vy = (boid.vy / speed) * maxspeed;
+                if (speed > maxSpeed) {
+                    boid.vx = (boid.vx / speed) * maxSpeed;
+                    boid.vy = (boid.vy / speed) * maxSpeed;
                 }
 
                 boid.x += boid.vx;
                 boid.y += boid.vy;
 
-                drawNode(ctx, boid.x, boid.y, Math.atan2(boid.vy, boid.vx));
+                drawBoid(ctx, boid.x, boid.y);
             }
 
             requestAnimationFrame(updateAndRenderBoids);
         }
 
         updateAndRenderBoids();
-
     }, []);
 
     return <canvas ref={canvasRef} />;

@@ -8,6 +8,7 @@ import AboutMe from "./AboutMe/AboutMe";
 import Demos from "./Demo/Demos";
 import PathFindingDemo from "./Demo/PathFinding/PathFindingDemo";
 import GameOfLife from "./Demo/GameOfLife/GameOfLife";
+import GravitySimulator from "./Demo/Gravity/Grav";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/demos/pathFinding" element={<PathFindingDemo />} />
           <Route path="/demos/gameOfLife" element={<GameOfLife />} />
+          <Route path="/demos/gravitySimulator" element={<GravitySimulator/>} />
         </Routes>
       </Router>
     </div>

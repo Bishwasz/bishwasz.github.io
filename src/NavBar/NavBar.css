@@ -14,7 +14,7 @@
 }
 
 .logo-container {
-    width: 55%;
+    width: 50%;
     display: flex;
     justify-content: flex-start; /* Align the logo to the left initially */
     /* padding-top: 10px; */

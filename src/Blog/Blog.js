@@ -7,7 +7,12 @@ function Blog() {
             <ul className="Posts">
                 <li>
                     <span className="Date">Coming Soon</span>
-                    <a className="Title">Implementing REINFORCE: A Simple Policy-Gradient Control Method</a>
+                    <a className="Title">Implementing REINFORCE on Snake Game</a>
+                    <p className="Description"> </p>
+                </li>
+                <li>
+                    <span className="Date">Coming Soon</span>
+                    <a className="Title">Implementing Pixel RNN</a>
                     <p className="Description"> </p>
                 </li>
             </ul>
