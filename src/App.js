@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { lightTheme, darkTheme } from './theme';
 import Boid from "./Boid/Boid";
 import Navbar from "./NavBar/Navbar";
 import Blog from "./Blog/Blog";
@@ -11,10 +12,17 @@ import GameOfLife from "./Demo/GameOfLife/GameOfLife";
 import GravitySimulator from "./Demo/Gravity/Grav";
 
 const App = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <div>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline />
       <Router>
-        <ConditionalNavbar />
+        <ConditionalNavbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         <Routes>
           <Route path="/" element={<Boid />} />
           <Route path="/blog" element={<Blog />} />
@@ -22,21 +30,21 @@ const App = () => {
           <Route path="/demos" element={<Demos />} />
           <Route path="/demos/pathFinding" element={<PathFindingDemo />} />
           <Route path="/demos/gameOfLife" element={<GameOfLife />} />
-          <Route path="/demos/gravitySimulator" element={<GravitySimulator/>} />
+          <Route path="/demos/gravitySimulator" element={<GravitySimulator />} />
         </Routes>
       </Router>
-    </div>
+    </ThemeProvider>
   );
 };
 
-const ConditionalNavbar = () => {
+const ConditionalNavbar = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation();
 
   if (location.pathname.startsWith("/demos/pathFinding") || location.pathname.startsWith("/demos/gameOfLife")) {
     return null;
   }
 
-  return <Navbar />;
+  return <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />;
 };
 
 export default App;

@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from 'react';
+import { useTheme } from '@mui/material/styles';
 
 function Boids() {
     const canvasRef = useRef(null);
     const mousePosition = useRef({ x: null, y: null });
     const isMouseClicked = useRef(false);
+    const theme = useTheme();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -13,7 +15,7 @@ function Boids() {
         canvas.height = window.innerHeight;
 
         const flock = [];
-        const numBoids = 1000;
+        const numBoids = 600;
         for (let i = 0; i < numBoids; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
@@ -52,10 +54,10 @@ function Boids() {
             }
         });
 
-        function drawBoid(ctx, x, y) {
+        function drawBoid(ctx, x, y, color) {
             ctx.beginPath();
             ctx.arc(x, y, 5, 0, 2 * Math.PI);
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = color;
             ctx.fill();
         }
 
@@ -129,14 +131,14 @@ function Boids() {
                 boid.x += boid.vx;
                 boid.y += boid.vy;
 
-                drawBoid(ctx, boid.x, boid.y);
+                drawBoid(ctx, boid.x, boid.y, theme.palette.mode === 'dark' ? 'white' : 'black');
             }
 
             requestAnimationFrame(updateAndRenderBoids);
         }
 
         updateAndRenderBoids();
-    }, []);
+    }, [theme.palette.mode]);
 
     return <canvas ref={canvasRef} />;
 }
