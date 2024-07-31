@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from '@mui/material/styles';
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { SiLeetcode } from "react-icons/si";
 import './AboutMe.css';
 
 function AboutMe() {
@@ -12,7 +11,7 @@ function AboutMe() {
       <h1 style={{ color: theme.palette.text.primary }}>About</h1>
       <div className="DescriptionMe">
         <p>
-        Hello! I'm Bishwas Bhattarai, a third-year student at the University of Alberta, pursuing a double major in Computer Science and Mathematics. My passion lies in exploring various fields such as deep learning, reinforcement learning, generative models, computer graphics, and software development. Investigating the intersections of these domains not only fuels my curiosity but also motivates me to further examine their applications and implications.          <br/> Here is my <a href="URL_to_CV" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.primary.main }}>CV</a>.
+        Hello! I'm Bishwas Bhattarai, a third-year student at the University of Alberta, pursuing a double major in Computer Science and Mathematics. My passion lies in exploring various fields such as deep learning, reinforcement learning, generative models, computer graphics, compiler design, and software development. Investigating the intersections of these domains not only fuels my curiosity but also motivates me to further examine their applications and implications.          <br/> Here is my <a href="URL_to_CV" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.primary.main }}>CV</a>.
         </p>
       </div>
       <div className="Links">

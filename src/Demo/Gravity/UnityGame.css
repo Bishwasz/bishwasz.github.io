@@ -1,0 +1,21 @@
+/* Apply styles specifically to the UnityGame component */
+
+.unity-game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling */
+    z-index: 9999; /* Ensures the iframe is on top */
+  }
+  
+  .unity-game-iframe {
+    width: 100%;
+    height: 100%;
+    border: none; /* Removes the default iframe border */
+    display: block; /* Ensures the iframe is treated as a block element */
+  }
+  

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { lightTheme, darkTheme } from './theme';
 import Boid from "./Boid/Boid";
@@ -40,7 +40,11 @@ const App = () => {
 const ConditionalNavbar = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation();
 
-  if (location.pathname.startsWith("/demos/pathFinding") || location.pathname.startsWith("/demos/gameOfLife")) {
+  if (
+    location.pathname.startsWith("/demos/pathFinding") ||
+    location.pathname.startsWith("/demos/gameOfLife") ||
+    location.pathname.startsWith("/demos/gravitySimulator")
+  ) {
     return null;
   }
 
@@ -48,4 +52,3 @@ const ConditionalNavbar = ({ isDarkMode, toggleTheme }) => {
 };
 
 export default App;
-
