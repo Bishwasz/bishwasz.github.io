@@ -6,8 +6,8 @@ function Blog() {
             <h1>Blog</h1>
             <ul className="Posts">
                 <li>
-                    <span className="Date">Coming Soon</span>
-                    <a className="Title">Implementing Pixel RNN</a>
+                    <span className="Date">Soon enough</span>
+                    <a className="Title">One Day</a>
                     <p className="Description"> </p>
                 </li>
             </ul>

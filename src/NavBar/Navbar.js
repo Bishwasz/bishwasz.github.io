@@ -1,47 +1,38 @@
 import React from 'react';
-import { AppBar, Toolbar, Button, Box, IconButton, useMediaQuery } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Box,
+  IconButton,
+  useMediaQuery
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/system';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
+
 import logo from './logo.png';
 
 const Logo = styled('img')({
-  width: '90px',
-  height: '40px',
   marginBottom: '10px',
-});
-
-const StyledToolbar = styled(Toolbar)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  paddingTop: '5px', // Reduced padding to make the toolbar shorter
-  paddingBottom: '0px', // Reduced padding to make the toolbar shorter
 });
 
 const MenuButton = styled(Button)(({ theme }) => ({
   position: 'relative',
-  color: theme.palette.text.primary, // Adjust the color based on the theme
+  color: theme.palette.text.primary,
   fontWeight: 600,
   fontFamily: '"Encode Sans Condensed", sans-serif',
-  fontSize: '1.5em',
-  marginRight: '24px',
-  // marginBottom: '3px',
-  paddingLeft: '4px',
-  paddingRight: '32px',
-  height: 'calc(1.3em + 3px)',
   overflow: 'hidden',
   transition: 'color 0.3s ease',
-  borderRadius: 0, // Make buttons rectangular with no rounded edges
-  textTransform: 'none', // Ensure text is not in all capital letters
-
+  borderRadius: 0,
+  textTransform: 'none',
   '&::before': {
     content: '""',
     position: 'absolute',
     left: 0,
     bottom: 0,
     width: '100%',
-    height: '3px', // Small underline when not hovered
+    height: '3px',
     backgroundColor: theme.palette.text.primary,
     opacity: 0.7,
   },
@@ -64,55 +55,143 @@ const MenuButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+const getMenuButtonStyles = (isVerySmall, isMobile) => ({
+  fontSize: isVerySmall ? '1em' : isMobile ? '1.2em' : '1.5em',
+  marginRight: isVerySmall ? '4px' : isMobile ? '8px' : '16px',
+  paddingLeft: isVerySmall ? '2px' : '4px',
+  paddingRight: isVerySmall ? '8px' : isMobile ? '12px' : '24px',
+  height: isVerySmall ? 'calc(1em + 3px)' : isMobile ? 'calc(1.2em + 3px)' : 'calc(1.3em + 3px)',
+  paddingTop: '0px',
+  paddingBottom: '0px',
+});
+
 function Navbar({ isDarkMode, toggleTheme }) {
   const isMobile = useMediaQuery('(max-width:600px)');
   const isVerySmall = useMediaQuery('(max-width:480px)');
   const theme = useTheme();
 
   return (
-    <AppBar 
-      position="fixed" 
-      sx={{ 
-        background: isDarkMode 
-          ? 'linear-gradient(to bottom, rgba(9, 9, 24, 0.9) 40%, rgba(9, 9, 10, 0.8))' 
-          : 'rgba(255, 255, 255, 0.8)', // Gradient background with transparency for dark mode
-        boxShadow: 'none', // Removed shadow effect
-        color: theme.palette.text.primary, // Ensure text color adjusts
+    <AppBar
+      position="fixed"
+      sx={{
+        background: isDarkMode
+          ? 'linear-gradient(to bottom, rgba(9, 9, 24, 0.9) 40%, rgba(9, 9, 10, 0.8))'
+          : 'rgba(255, 255, 255, 0.8)',
+        boxShadow: 'none',
+        color: theme.palette.text.primary,
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
       }}
     >
-      <StyledToolbar sx={isMobile ? { padding: '0 50px', paddingTop: '10px' } : {}}>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: isMobile ? '5px' : '0px' }}>
-          <Logo 
-            src={logo} 
-            alt="Logo" 
-            sx={isVerySmall ? { height: '25px', maxWidth: '60px' } : isMobile ? { height: '10px', maxWidth: '80px' } : {}}
+      {/* Desktop-only brightness icon */}
+      {!isMobile && (
+        <IconButton
+          onClick={toggleTheme}
+          color="inherit"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 16,
+            zIndex: 10,
+            padding: '12px',
+          }}
+        >
+          {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+      )}
+
+      <Toolbar
+        sx={{
+          display: 'flex',
+          flexDirection: isMobile ? 'row' : 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: isMobile ? '10px 20px 0 20px' : '5px 250px 0 250px',
+          minHeight: 'auto',
+        }}
+      >
+        {/* Logo section */}
+        <Box
+          sx={{
+            width: isMobile ? 'auto' : '100%',
+            display: 'flex',
+            justifyContent: isMobile ? 'flex-start' : 'center',
+            alignItems: 'center',
+            marginBottom: isMobile ? '0px' : '5px',
+          }}
+        >
+          <Logo
+            src={logo}
+            alt="Logo"
+            sx={{
+              height: isVerySmall ? '25px' : isMobile ? '30px' : '40px',
+              maxWidth: isVerySmall ? '60px' : isMobile ? '80px' : '90px',
+              marginRight: isMobile ? '16px' : '0',
+            }}
           />
         </Box>
-        <Box sx={{ 
-          display: 'flex', 
-          flexWrap: 'nowrap', 
-          overflow: 'auto', 
-          width: '100%', 
-          paddingLeft: isMobile ? '30px' : '250px', // Increased left padding to move links to the right
-          justifyContent: 'flex-start', // Align items to the start of the container
-        }}>
-          <MenuButton component={Link} to="/" sx={isMobile ? { fontSize: isVerySmall ? '1em' : '1.2em', marginRight: isVerySmall ? '8px' : '16px' } : {}}>
-            Landing
-          </MenuButton>
-          <MenuButton component={Link} to="/about" sx={isMobile ? { fontSize: isVerySmall ? '1em' : '1.2em', marginRight: isVerySmall ? '8px' : '16px' } : {}}>
-            About
-          </MenuButton>
-          <MenuButton component={Link} to="/blog" sx={isMobile ? { fontSize: isVerySmall ? '1em' : '1.2em', marginRight: isVerySmall ? '8px' : '16px' } : {}}>
-            Writing
-          </MenuButton>
-          <MenuButton component={Link} to="/demos" sx={isMobile ? { fontSize: isVerySmall ? '1em' : '1.2em', marginRight: isVerySmall ? '8px' : '16px' } : {}}>
-            Demos
-          </MenuButton>
-          <IconButton onClick={toggleTheme} color="inherit" sx={{ marginLeft: 'auto', marginBottom:'10px' }}>
-            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
+
+        {/* Menu and icon container */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+            paddingRight: isMobile ? 0 : '250px',
+            paddingLeft: isMobile ? 0 : '250px',
+          }}
+        >
+          {/* Menu section */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              overflowX: 'auto',
+              minWidth: 'fit-content',
+              scrollPaddingLeft: '8px',
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+              ...(isMobile
+                ? {}
+                : {
+                    maxWidth: '900px',
+                    margin: '0 auto',
+                    transform: 'translateX(-60px)',
+                  }),
+            }}
+          >
+            <MenuButton component={Link} to="/" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
+              Landing
+            </MenuButton>
+            <MenuButton component={Link} to="/about" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
+              About
+            </MenuButton>
+            <MenuButton component={Link} to="/blog" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
+              Writing
+            </MenuButton>
+            <MenuButton component={Link} to="/demos" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
+              Demos
+            </MenuButton>
+          </Box>
+
+          {/* Mobile-only brightness icon placed at far right */}
+          {isMobile && (
+            <IconButton
+              onClick={toggleTheme}
+              color="inherit"
+              sx={{
+                ml: 'auto',
+                padding: '8px',
+              }}
+            >
+              {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          )}
         </Box>
-      </StyledToolbar>
+      </Toolbar>
     </AppBar>
   );
 }

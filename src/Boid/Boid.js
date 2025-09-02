@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 function Boids() {
@@ -6,34 +6,76 @@ function Boids() {
     const mousePosition = useRef({ x: null, y: null });
     const isMouseClicked = useRef(false);
     const theme = useTheme();
+    const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+    const animationRef = useRef(null);
+    const flockRef = useRef(null);
 
-    useEffect(() => {
+    const initializeBoids = useCallback(() => {
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const flock = [];
-        const numBoids = 600;
-        for (let i = 0; i < numBoids; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            const vx = Math.random() * 2 - 1;
-            const vy = Math.random() * 2 - 1;
-            flock.push({ x, y, vx, vy });
+        function generateHiPoints(canvas, numPoints) {
+            const points = [];
+            const fontSize = Math.min(canvas.width, canvas.height) * 0.4;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.font = `bold ${fontSize}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const text = 'Hi !';
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+            
+            ctx.fillText(text, x, y);
+            
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            
+            for (let i = 0; i < numPoints; i++) {
+                let rx, ry;
+                do {
+                    rx = Math.floor(Math.random() * canvas.width);
+                    ry = Math.floor(Math.random() * canvas.height);
+                } while (pixels[(ry * canvas.width + rx) * 4 + 3] === 0);
+                
+                points.push({ x: rx, y: ry });
+            }
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return points;
         }
 
-        const visualRange = 50;
+        const numBoids = 1000;
+        const hiPoints = generateHiPoints(canvas, numBoids);
+        
+        return hiPoints.map(point => ({
+            x: point.x,
+            y: point.y,
+            vx: Math.random() * 2 - 1,
+            vy: Math.random() * 2 - 1
+        }));
+    }, []);
+
+    useEffect(() => {
+        if (!flockRef.current) {
+            flockRef.current = initializeBoids();
+        }
+
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+
+        const visualRange = 40;
         const protectedRangeSquared = 50;
         const visualRangeSquared = visualRange ** 2;
         const centeringFactor = 0.01;
         const matchingFactor = 0.125;
-        const avoidFactor = 10;
+        const avoidFactor = 50;
         const turnFactor = 0.05;
         const minSpeed = 1;
-        const maxSpeed = 4;
-        const attractionFactor = 0.05;
+        const maxSpeed = 3;
+        const attractionFactor = 0.01;
 
         canvas.addEventListener('mousedown', (event) => {
             mousePosition.current.x = event.clientX;
@@ -64,7 +106,7 @@ function Boids() {
         function updateAndRenderBoids() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            for (const boid of flock) {
+            for (const boid of flockRef.current) {
                 let xPosAvg = 0,
                     yPosAvg = 0,
                     xVelAvg = 0,
@@ -73,7 +115,7 @@ function Boids() {
                     closeDx = 0,
                     closeDy = 0;
 
-                for (const otherBoid of flock) {
+                for (const otherBoid of flockRef.current) {
                     const dx = boid.x - otherBoid.x;
                     const dy = boid.y - otherBoid.y;
                     const squaredDistance = dx * dx + dy * dy;
@@ -131,16 +173,35 @@ function Boids() {
                 boid.x += boid.vx;
                 boid.y += boid.vy;
 
-                drawBoid(ctx, boid.x, boid.y, theme.palette.mode === 'dark' ? 'white' : 'black');
+                drawBoid(ctx, boid.x, boid.y, theme.palette.mode === 'dark' ? '#fffaf0' : 'black');
             }
 
-            requestAnimationFrame(updateAndRenderBoids);
+            animationRef.current = requestAnimationFrame(updateAndRenderBoids);
         }
 
-        updateAndRenderBoids();
-    }, [theme.palette.mode]);
+        // Initial render of static "Hi"
+        for (const boid of flockRef.current) {
+            drawBoid(ctx, boid.x, boid.y, theme.palette.mode === 'dark' ? '#fffaf0' : 'black');
+        }
 
-    return <canvas ref={canvasRef} />;
+        if (isAnimationStarted) {
+            updateAndRenderBoids();
+        }
+
+        return () => {
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
+    }, [theme.palette.mode, isAnimationStarted, initializeBoids]);
+
+    const handleCanvasClick = () => {
+        if (!isAnimationStarted) {
+            setIsAnimationStarted(true);
+        }
+    };
+
+    return <canvas ref={canvasRef} onClick={handleCanvasClick} style={{ cursor: isAnimationStarted ? 'default' : 'pointer' }} />;
 }
 
 export default Boids;

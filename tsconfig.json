@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "esnext",                     // Modern JS for WebGPU
+    "module": "esnext",                     // ES modules for Webpack/Vite
+    "jsx": "react-jsx",                     // React 17+ JSX transform
+    "strict": true,                         // Keep strict type checking
+    "strictPropertyInitialization": false,  // ✅ Disable to avoid TS2564 errors
+    "esModuleInterop": true,                // Interop for CommonJS modules
+    "skipLibCheck": true,                   // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Enforce consistent file naming
+    "moduleResolution": "node",             // Node.js-style module resolution
+    "outDir": "./dist/",                    // Output directory
+    "baseUrl": "src",                       // Base path for imports
+    "noImplicitAny": true,                  // Prevent implicit 'any' types
+    "sourceMap": true,                      // Generate source maps for debugging
+    "allowJs": true,                        // Allow JavaScript files
+    "lib": ["ESNext", "DOM"],               // Required for WebGPU and browser APIs
+    "types": ["@webgpu/types", "node"],     // ✅ Add "node" for Webpack/Node env
+    "resolveJsonModule": true               // ✅ Optional: if you import JSON files
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
