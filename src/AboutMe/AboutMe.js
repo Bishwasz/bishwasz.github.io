@@ -1,25 +1,101 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from '@mui/material/styles';
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaChevronDown, FaChevronRight } from "react-icons/fa";
 import './AboutMe.css';
 
 function AboutMe() {
   const theme = useTheme();
   const [hovered, setHovered] = useState(null);
+  const [expandedProjects, setExpandedProjects] = useState({});
   const sectionRef = useRef(null);
+
+  const toggleProject = (projectId) => {
+    setExpandedProjects(prev => ({
+      ...prev,
+      [projectId]: !prev[projectId]
+    }));
+  };
+
+  const projects = [
+    {
+      id: 'gazprea',
+      title: 'Gazprea Compiler',
+      description: `I took CMPUT 415 (Compiler Design) to deepen my interest in compilers, and it became the most engaging course I've taken at the University of Alberta. The main project was Gazprea, a statically typed language with shape-aware vector and matrix types. Our team built a compiler targeting LLVM using ANTLR4 and a multi-pass AST-based design. I focused on semantic analysis and backend code generation. The project highlighted how challenging compiler correctness and maintainability are, and how important good design and testing are in large systems.`
+    }
+  ];
 
   return (
     <div 
       ref={sectionRef} 
       className="about-me" 
-      style={{ background: theme.palette.background.default, color: theme.palette.text.primary }}
+      style={{ 
+        background: theme.palette.background.default, 
+        color: theme.palette.text.primary,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}
     >
-      <h1>About Me</h1>
-      <p>
-        Computers are kewl.
-      </p>
+      <div style={{ 
+        display: 'flex',
+        justifyContent: 'flex-start',
+        paddingLeft: '15%',
+        flex: 1
+      }}>
+        <div className="about-me-content" style={{ maxWidth: '700px', textAlign: 'left' }}>
+          <h1>About</h1>
+          <p>
+            I'm Bishwas Bhattarai.
+          </p>
+          
+          <p>
+            You can reach me at <a href="mailto:bishwas2026@gmail.com" style={{ color: theme.palette.text.link, textDecoration: 'none' }}>bishwas2026@gmail.com</a>
+          </p>
 
-      <div className="social-links">
+          <h2>Past Projects</h2>
+          
+          {projects.map(project => (
+            <div key={project.id} style={{ marginBottom: '12px' }}>
+              <div 
+                onClick={() => toggleProject(project.id)}
+                style={{ 
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 0',
+                  userSelect: 'none'
+                }}
+              >
+                {expandedProjects[project.id] ? (
+                  <FaChevronDown size={14} />
+                ) : (
+                  <FaChevronRight size={14} />
+                )}
+                <strong>{project.title}</strong>
+              </div>
+              
+              {expandedProjects[project.id] && (
+                <p style={{ 
+                  marginLeft: '22px', 
+                  marginTop: '4px',
+                  lineHeight: '1.6'
+                }}>
+                  {project.description}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="social-links" style={{ 
+        paddingBottom: '48px',
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '24px',
+        width: '100%'
+      }}>
         <a 
           href="https://github.com/Bishwasz" 
           target="_blank" 
@@ -34,7 +110,7 @@ function AboutMe() {
           href="https://www.linkedin.com/in/bishwas-bhattarai/" 
           target="_blank" 
           rel="noopener noreferrer"
-          onMouseEnter={() => setHovered("linkedin")}
+            onMouseEnter={() => setHovered("linkedin")}
           onMouseLeave={() => setHovered(null)}
         >
           <FaLinkedin size={32} color={hovered === "linkedin" ? "#0077b5" : theme.palette.text.primary} />
@@ -45,140 +121,3 @@ function AboutMe() {
 }
 
 export default AboutMe;
-
-// function AboutMe() {
-//   const theme = useTheme();
-//   const [message, setMessage] = useState('');
-//   const [chatHistory, setChatHistory] = useState([]);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [ws, setWs] = useState(null); // Store WebSocket instance
-//   const [isConnected, setIsConnected] = useState(false); // Connection status
-
-//   const chatEndRef = useRef(null); // Reference to the bottom of the chat
-
-//   // Auto-scroll when chatHistory changes
-//   useEffect(() => {
-//     if (chatEndRef.current) {
-//       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-//     }
-//   }, [chatHistory]);
-
-//   // Initialize WebSocket connection when component mounts
-//   useEffect(() => {
-//     const websocketUrl = 'ws://192.168.1.119:8000/chat';
-//     const websocket = new WebSocket(websocketUrl);
-
-//     websocket.onopen = () => {
-//       console.log('WebSocket connected');
-//       setIsConnected(true);
-//       setIsLoading(false);
-//       setChatHistory((prev) => [
-//         ...prev,
-//         { type: 'system', text: 'Connected to the LLM server.' }
-//       ]);
-//     };
-
-//     websocket.onmessage = (event) => {
-//       const data = JSON.parse(event.data);
-//       setChatHistory((prev) => [
-//         ...prev,
-//         { type: 'bot', text: data.response || 'Error: No response from server' }
-//       ]);
-//       setIsLoading(false);
-//     };
-
-//     websocket.onerror = (error) => {
-//       console.error('WebSocket error:', error);
-//       setIsConnected(false);
-//       setChatHistory((prev) => [
-//         ...prev,
-//         { type: 'system', text: 'Error: Could not connect to the chat server.' }
-//       ]);
-//       setIsLoading(false);
-//     };
-
-//     websocket.onclose = () => {
-//       console.log('WebSocket disconnected');
-//       setIsConnected(false);
-//       setIsLoading(false);
-//       setChatHistory((prev) => [
-//         ...prev,
-//         { type: 'system', text: 'Disconnected from the LLM server. Attempting to reconnect...' }
-//       ]);
-//       setTimeout(() => {
-//         console.log('Attempting to reconnect...');
-//       }, 5000);
-//     };
-
-//     setWs(websocket);
-
-//     return () => {
-//       websocket.close();
-//     };
-//   }, []);
-
-//   const handleSendMessage = (e) => {
-//     e.preventDefault();
-//     if (!message.trim() || !ws || ws.readyState !== WebSocket.OPEN) {
-//       console.log('Cannot send message: WebSocket not open or message is empty.');
-//       return;
-//     }
-
-//     setIsLoading(true);
-//     setChatHistory((prev) => [...prev, { type: 'user', text: message }]);
-//     ws.send(JSON.stringify({ q: message }));
-//     setMessage('');
-//   };
-
-//   return (
-//     <div className="AboutMePage" style={{ color: theme.palette.text.primary }}>
-//       <h1 style={{ color: theme.palette.text.primary }}>About</h1>
-//       <div className="DescriptionMe">
-//         <p>
-//           In short... I like computers.<br />
-//           This is an experimental, LoRA-fine-tuned LLM designed to communicate on my behalf. It's a compact 135-million parameter model, currently running on a Raspberry Pi 5. Due to its size and hardware, it's prone to hallucinations and has noticeable response delays. Nevertheless, I encourage you to ask it questions about me and see if it can provide insightful answers. I anticipate that as technology evolves, this model will improve in both its accuracy and speed.
-//         </p>
-//       </div>
-
-//       <div className="ChatBox">
-//         <div className="ChatHistory">
-//           {chatHistory.map((entry, index) => (
-//             <div key={index} className={`ChatMessage ${entry.type}`}>
-//               <span>{entry.text}</span>
-//             </div>
-//           ))}
-//           <div ref={chatEndRef} />
-//         </div>
-
-//         <form onSubmit={handleSendMessage} className="ChatInputForm">
-//           <input
-//             type="text"
-//             value={message}
-//             onChange={(e) => setMessage(e.target.value)}
-//             placeholder="Ask about me..."
-//             disabled={isLoading || !ws || ws.readyState !== WebSocket.OPEN}
-//             className="ChatInput"
-//           />
-//           <button
-//             type="submit"
-//             disabled={isLoading || !ws || ws.readyState !== WebSocket.OPEN}
-//             className="ChatButton"
-//           >
-//             {isLoading ? 'Sending...' : 'Send'}
-//           </button>
-//         </form>
-//       </div>
-
-//       <div className="Links">
-//         <a href="https://github.com/bishwasz" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.text.primary }}>
-//           <FaGithub />
-//         </a>
-//         <a href="https://www.linkedin.com/in/bishwas-bhattarai-269938219/" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.text.primary }}>
-//           <FaLinkedin />
-//         </a>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AboutMe;

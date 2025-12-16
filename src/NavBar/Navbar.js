@@ -1,199 +1,122 @@
-import React from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Box,
-  IconButton,
-  useMediaQuery
-} from '@mui/material';
-import { Link } from 'react-router-dom';
-import { styled, useTheme } from '@mui/system';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
+// Navbar.jsx
+import { useState } from 'react';
+import { AppBar, Toolbar, Box, IconButton, Typography, Menu, MenuItem } from '@mui/material';
+import { Brightness4, Brightness7, Menu as MenuIcon } from '@mui/icons-material';
+import { NavLink } from 'react-router-dom';
 
-import logo from './logo.png';
+const links = [
+  // { label: 'Landing', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Writing', to: '/blog' },
+  { label: 'Demos', to: '/demos' },
+];
 
-const Logo = styled('img')({
-  marginBottom: '10px',
-});
-
-const MenuButton = styled(Button)(({ theme }) => ({
-  position: 'relative',
-  color: theme.palette.text.primary,
+const linkStyle = (theme) => ({
+  color: theme.palette.text.link,
+  textDecoration: 'none',
   fontWeight: 600,
-  fontFamily: '"Encode Sans Condensed", sans-serif',
+  position: 'relative',
+  px: 1.5,
+  py: 0.5,
   overflow: 'hidden',
   transition: 'color 0.3s ease',
-  borderRadius: 0,
-  textTransform: 'none',
+  
   '&::before': {
     content: '""',
     position: 'absolute',
     left: 0,
     bottom: 0,
     width: '100%',
-    height: '3px',
-    backgroundColor: theme.palette.text.primary,
-    opacity: 0.7,
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    width: '100%',
-    height: '0',
-    backgroundColor: theme.palette.text.primary,
-    transition: 'height 0.3s ease',
+    height: '100%',
+    bgcolor: theme.palette.text.primary,
+    transform: 'translateY(100%)',
+    transition: 'transform 0.3s ease',
     zIndex: -1,
   },
-  '&:hover::after': {
-    height: '100%',
-  },
+  
   '&:hover': {
-    color: theme.palette.background.paper,
+    color: theme.palette.background.default,
   },
-}));
-
-const getMenuButtonStyles = (isVerySmall, isMobile) => ({
-  fontSize: isVerySmall ? '1em' : isMobile ? '1.2em' : '1.5em',
-  marginRight: isVerySmall ? '4px' : isMobile ? '8px' : '16px',
-  paddingLeft: isVerySmall ? '2px' : '4px',
-  paddingRight: isVerySmall ? '8px' : isMobile ? '12px' : '24px',
-  height: isVerySmall ? 'calc(1em + 3px)' : isMobile ? 'calc(1.2em + 3px)' : 'calc(1.3em + 3px)',
-  paddingTop: '0px',
-  paddingBottom: '0px',
+  
+  '&:hover::before': {
+    transform: 'translateY(0)',
+  },
 });
 
-function Navbar({ isDarkMode, toggleTheme }) {
-  const isMobile = useMediaQuery('(max-width:600px)');
-  const isVerySmall = useMediaQuery('(max-width:480px)');
-  const theme = useTheme();
+export default function Navbar({ isDarkMode, toggleTheme }) {
+  const [anchorEl, setAnchorEl] = useState(null);
 
   return (
     <AppBar
       position="fixed"
+      elevation={0}
       sx={{
-        background: isDarkMode
-          ? 'linear-gradient(to bottom, rgba(9, 9, 24, 0.9) 40%, rgba(9, 9, 10, 0.8))'
-          : 'rgba(255, 255, 255, 0.8)',
-        boxShadow: 'none',
-        color: theme.palette.text.primary,
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
+        bgcolor: 'background.navbar',
+        backdropFilter: 'blur(10px)',
       }}
     >
-      {/* Desktop-only brightness icon */}
-      {!isMobile && (
-        <IconButton
-          onClick={toggleTheme}
-          color="inherit"
-          sx={{
-            position: 'absolute',
-            top: 8,
-            right: 16,
-            zIndex: 10,
-            padding: '12px',
+      <Toolbar sx={{ maxWidth: 1200, mx: 'auto', width: '100%', py: 2, gap: 3 }}>
+        <Box 
+          component={NavLink} 
+          to="/" 
+          sx={{ 
+            color: 'text.primary', 
+            textDecoration: 'none' 
+          }}
+        >
+          <Typography fontWeight={600}>Bishwas</Typography>
+        </Box>
+
+        {/* Desktop links */}
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, ml: 'auto' }}>
+          {links.map(({ label, to }) => (
+            <Box key={to} component={NavLink} to={to} sx={linkStyle}>{label}</Box>
+          ))}
+        </Box>
+
+        <IconButton 
+          onClick={toggleTheme} 
+          sx={{ 
+            ml: { xs: 'auto', md: 0 },
+            color: 'text.primary'
           }}
         >
           {isDarkMode ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
-      )}
 
-      <Toolbar
-        sx={{
-          display: 'flex',
-          flexDirection: isMobile ? 'row' : 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: isMobile ? '10px 20px 0 20px' : '5px 250px 0 250px',
-          minHeight: 'auto',
-        }}
-      >
-        {/* Logo section */}
-        <Box
-          sx={{
-            width: isMobile ? 'auto' : '100%',
-            display: 'flex',
-            justifyContent: isMobile ? 'flex-start' : 'center',
-            alignItems: 'center',
-            marginBottom: isMobile ? '0px' : '5px',
+        {/* Mobile menu button */}
+        <IconButton
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+          sx={{ 
+            display: { xs: 'flex', md: 'none' },
+            color: 'text.primary'
           }}
         >
-          <Logo
-            src={logo}
-            alt="Logo"
-            sx={{
-              height: isVerySmall ? '25px' : isMobile ? '30px' : '40px',
-              maxWidth: isVerySmall ? '60px' : isMobile ? '80px' : '90px',
-              marginRight: isMobile ? '16px' : '0',
-            }}
-          />
-        </Box>
+          <MenuIcon />
+        </IconButton>
 
-        {/* Menu and icon container */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: '100%',
-            paddingRight: isMobile ? 0 : '250px',
-            paddingLeft: isMobile ? 0 : '250px',
-          }}
+        {/* Dropdown menu */}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
         >
-          {/* Menu section */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'nowrap',
-              overflowX: 'auto',
-              minWidth: 'fit-content',
-              scrollPaddingLeft: '8px',
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': {
-                display: 'none',
-              },
-              ...(isMobile
-                ? {}
-                : {
-                    maxWidth: '900px',
-                    margin: '0 auto',
-                    transform: 'translateX(-60px)',
-                  }),
-            }}
-          >
-            <MenuButton component={Link} to="/" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
-              Landing
-            </MenuButton>
-            <MenuButton component={Link} to="/about" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
-              About
-            </MenuButton>
-            <MenuButton component={Link} to="/blog" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
-              Writing
-            </MenuButton>
-            <MenuButton component={Link} to="/demos" sx={getMenuButtonStyles(isVerySmall, isMobile)}>
-              Demos
-            </MenuButton>
-          </Box>
-
-          {/* Mobile-only brightness icon placed at far right */}
-          {isMobile && (
-            <IconButton
-              onClick={toggleTheme}
-              color="inherit"
+          {links.map(({ label, to }) => (
+            <MenuItem
+              key={to}
+              component={NavLink}
+              to={to}
+              onClick={() => setAnchorEl(null)}
               sx={{
-                ml: 'auto',
-                padding: '8px',
+                color: 'text.primary',
+                '&.active': { bgcolor: 'action.selected' },
               }}
             >
-              {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-            </IconButton>
-          )}
-        </Box>
+              {label}
+            </MenuItem>
+          ))}
+        </Menu>
       </Toolbar>
     </AppBar>
   );
 }
-
-export default Navbar;
