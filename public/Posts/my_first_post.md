@@ -4,7 +4,8 @@ date: December 2025
 description: A post with LaTeX and code examples
 ---
 
-# Introduction
+# Test Post: MathJax and Code Formatting
+**THIS is a TEST POST FOR CHECKING MATHJAX AND CODE FORMATTING IN BLOG POSTS**
 
 Here's inline math: $E = mc^2$
 

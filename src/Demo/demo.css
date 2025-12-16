@@ -1,13 +1,5 @@
 .DemosPage {
-    width: 100%; /* Default to full width */
-    max-width: 800px; /* Max width of 800px */
-    margin: 100px auto; /* Center the element horizontally with a top margin of 100px */
-    display: flex;
-    flex-direction: column; /* Arrange children vertically */
-    align-items: center; /* Center children horizontally */
-    justify-content: center; /* Center children vertically */
-    padding: 20px; /* Add padding */
-    text-align: center; /* Center align text */
+
 }
 
 .demo-item {
@@ -21,7 +13,6 @@
     }
 }
 
-/* Media query for smaller screens */
 
 
 

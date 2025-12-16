@@ -17,22 +17,27 @@ function BlogPost() {
   const [loading, setLoading] = useState(true);
   const post = blogPosts.find(p => p.id === id);
 
-  useEffect(() => {
-    if (post?.file) {
-      fetch(`/Posts/${post.file}`)
-        .then(res => res.text())
-        .then(text => {
-          // Remove frontmatter (everything between --- and ---)
-          const contentWithoutFrontmatter = text.replace(/^---[\s\S]*?---\n/, '');
-          setContent(contentWithoutFrontmatter);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          setLoading(false);
-        });
-    }
-  }, [post]);
+useEffect(() => {
+  if (!post?.file) return;
+
+  fetch(`${process.env.PUBLIC_URL}/Posts/${post.file}`)
+    .then(res => {
+      if (!res.ok) throw new Error('File not found');
+      return res.text();
+    })
+    .then(text => {
+      const contentWithoutFrontmatter =
+        text.replace(/^---[\s\S]*?---\n/, '');
+      setContent(contentWithoutFrontmatter);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error(err);
+      setContent('Failed to load post content.');
+      setLoading(false);
+    });
+}, [post]);
+
 
   if (!post) {
     return (
