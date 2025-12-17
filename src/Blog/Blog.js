@@ -9,7 +9,7 @@ export const blogPosts = [
     title: 'Math and Code Example',
     date: 'December 2024',
     description: 'A post with LaTeX and code examples',
-    file: 'my_first_post.md'
+    file: 'meow.md'
   },
 ];
 
