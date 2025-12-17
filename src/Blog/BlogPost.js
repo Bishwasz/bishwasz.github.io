@@ -20,7 +20,7 @@ function BlogPost() {
   useEffect(() => {
     if (!post?.file) return;
 
-    fetch(`${process.env.PUBLIC_URL}/bosts/${post.file}`)
+    fetch(`${process.env.PUBLIC_URL}/posts/${post.file}`)
       .then(res => {
         if (!res.ok) throw new Error('File not found');
         return res.text();

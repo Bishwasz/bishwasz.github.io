@@ -8,8 +8,8 @@ export const blogPosts = [
     id: 'my-first-post',
     title: 'Math and Code Example',
     date: 'December 2024',
-    description: 'A post with LaTeX and code examples',
-    file: 'meow.md'
+    description: 'A post swith LaTeX and code examples',
+    file: 'first.md'
   },
 ];
 
