@@ -17,27 +17,26 @@ function BlogPost() {
   const [loading, setLoading] = useState(true);
   const post = blogPosts.find(p => p.id === id);
 
-useEffect(() => {
-  if (!post?.file) return;
+  useEffect(() => {
+    if (!post?.file) return;
 
-  fetch(`${process.env.PUBLIC_URL}/Posts/${post.file}`)
-    .then(res => {
-      if (!res.ok) throw new Error('File not found');
-      return res.text();
-    })
-    .then(text => {
-      const contentWithoutFrontmatter =
-        text.replace(/^---[\s\S]*?---\n/, '');
-      setContent(contentWithoutFrontmatter);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error(err);
-      setContent('Failed to load post content.');
-      setLoading(false);
-    });
-}, [post]);
-
+    // Simple fix: just use the origin (works for both localhost and GitHub Pages)
+    fetch(`${process.env.PUBLIC_URL}/Posts/${post.file}`)
+      .then(res => {
+        if (!res.ok) throw new Error('File not found');
+        return res.text();
+      })
+      .then(text => {
+        const contentWithoutFrontmatter = text.replace(/^---[\s\S]*?---\n/, '');
+        setContent(contentWithoutFrontmatter);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setContent('Failed to load post content.');
+        setLoading(false);
+      });
+  }, [post]);
 
   if (!post) {
     return (
@@ -50,7 +49,7 @@ useEffect(() => {
         background: theme.palette.background.default,
         color: theme.palette.text.primary
       }}>
-        <div style={{ maxWidth: '700px', textAlign: 'left', width: '100%' }}>
+        <div style={{ width: '67vw', textAlign: 'left' }}>
           <h1>Post Not Found</h1>
           <Link to="/blog" style={{ color: theme.palette.text.link, textDecoration: 'none' }}>← Back to Blog</Link>
         </div>
@@ -82,7 +81,6 @@ useEffect(() => {
           background: theme.palette.background.card,
           padding: '32px',
           borderRadius: '1px',
-          // boxShadow: theme.shadows.card,
           boxSizing: 'border-box'
         }}>
           <span className="Date" style={{ fontSize: '14px', opacity: 0.7 }}>{post.date}</span>
@@ -98,31 +96,31 @@ useEffect(() => {
                 code({ node, inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
                   return !inline && match ? (
-<SyntaxHighlighter
-  style={theme.palette.mode === 'dark' ? oneDark : oneLight}
-  language={match[1]}
-  PreTag="div"
-  customStyle={{
-    border: theme.palette.mode === 'dark' ? '1px solid #444' : '1px solid #030202ff',
-    borderRadius: '8px'
-  }}
-  {...props}
->
-  {String(children).replace(/\n$/, '')}
-</SyntaxHighlighter>
+                    <SyntaxHighlighter
+                      style={theme.palette.mode === 'dark' ? oneDark : oneLight}
+                      language={match[1]}
+                      PreTag="div"
+                      customStyle={{
+                        border: theme.palette.mode === 'dark' ? '1px solid #444' : '1px solid #030202ff',
+                        borderRadius: '8px'
+                      }}
+                      {...props}
+                    >
+                      {String(children).replace(/\n$/, '')}
+                    </SyntaxHighlighter>
                   ) : (
-   <code 
-  className={className} 
-  style={{
-    background: theme.palette.mode === 'dark' ? '#2d2d2d' : '#f0f0f0',
-    padding: '2px 6px',
-    fontSize: '14px',
-    border: theme.palette.mode === 'dark' ? '1px solid #444' : '1px solid #ccc'
-  }}
-  {...props}
->
-  {children}
-</code>
+                    <code 
+                      className={className} 
+                      style={{
+                        background: theme.palette.mode === 'dark' ? '#2d2d2d' : '#f0f0f0',
+                        padding: '2px 6px',
+                        fontSize: '14px',
+                        border: theme.palette.mode === 'dark' ? '1px solid #444' : '1px solid #ccc'
+                      }}
+                      {...props}
+                    >
+                      {children}
+                    </code>
                   );
                 }
               }}
