@@ -7,7 +7,7 @@ description: A post with LaTeX and code examples
 # Test Post: MathJax and Code Formatting
 **THIS is a TEST POST FOR CHECKING MATHJAX AND CODE FORMATTING IN BLOG POSTS**
 
-Here's inline math: $E = mc^2$
+Here's inlin math: $E = mc^2$
 
 Block equation:
 
