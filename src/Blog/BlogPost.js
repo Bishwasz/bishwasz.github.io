@@ -20,7 +20,6 @@ function BlogPost() {
   useEffect(() => {
     if (!post?.file) return;
 
-    // Simple fix: just use the origin (works for both localhost and GitHub Pages)
     fetch(`${process.env.PUBLIC_URL}/bosts/${post.file}`)
       .then(res => {
         if (!res.ok) throw new Error('File not found');
