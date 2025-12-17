@@ -21,7 +21,7 @@ function BlogPost() {
     if (!post?.file) return;
 
     // Simple fix: just use the origin (works for both localhost and GitHub Pages)
-    fetch(`${process.env.PUBLIC_URL}/Posts/${post.file}`)
+    fetch(`${process.env.PUBLIC_URL}/posts/${post.file}`)
       .then(res => {
         if (!res.ok) throw new Error('File not found');
         return res.text();
