@@ -22,11 +22,11 @@ function Blog() {
     >
       <div style={{ width: '100%', textAlign: 'left' }}>
 <div style={{ width: '100%', textAlign: 'left' }}>
-  <h1>Blog</h1>
+  <h1>Blog & Notes </h1>
 
 <h3>Why make a blog?</h3>
 <ul style={{ lineHeight: 1.7, paddingLeft: '1.2rem' }}>
-  <li>Writing helps me clarify and organize my thoughts.</li>
+  <li>helps me clarify and organize my thoughts.</li>
   <li>
     It serves as a personal log of what I’m learning and keeps me motivated to dive deeper into my interests.
   </li>

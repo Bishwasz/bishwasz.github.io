@@ -20,10 +20,9 @@ function AboutMe() {
     {
       id: 'gazprea',
       title: 'Gazprea Compiler',
-      description: `I took CMPUT 415 (Compiler Design) to deepen my interest in compilers, and it became the most engaging course I've taken at the University of Alberta. The main project was Gazprea, a statically typed language with shape-aware vector and matrix types. Our team built a compiler targeting LLVM using ANTLR4 and a multi-pass AST-based design. I focused on semantic analysis and backend code generation. The project highlighted how challenging compiler correctness and maintainability are, and how important good design and testing are in large systems.`
+      description: `During my final year at the University of Alberta, I worked on Gazprea, a semester-long compiler project for an imperative, statically typed programming language designed for numeric and matrix-oriented computation. The language supports first-class vectors and matrices, dynamic multidimensional arrays, structured types, and user-defined functions. Our team implemented the full compiler pipeline from parsing to code generation using ANTLR for lexing and parsing, and C++ with an MLIR/LLVM backend. I focused on semantic analysis and backend lowering, including type checking, shape validation, and code generation for matrix and vector operations. The compiler grew to roughly 16,000 lines of code, and the project involved extensive design, implementation, and debugging across multiple compiler passes.`
     }
   ];
-
   return (
     <div 
       ref={sectionRef} 
@@ -45,8 +44,7 @@ function AboutMe() {
         <div className="about-me-content" style={{ maxWidth: '700px', textAlign: 'left' }}>
           <h1>About</h1>
           <p>
-            I'm Bishwas Bhattarai.
-          </p>
+            I'm Bishwas Bhattarai.I study computer science and statistics.         </p> 
           
           <p>
             You can reach me at <a href="mailto:bishwas2026@gmail.com" style={{ color: theme.palette.text.link, textDecoration: 'none' }}>bishwas2026@gmail.com</a>
